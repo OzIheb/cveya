@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.regex_helper import walk_to_end
 # Create your models here.
 
 
@@ -9,11 +10,32 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def create(cls, name, tasks=None):
+        skill = cls(name=name)
+        skill.save()
+        if tasks:
+            for task in tasks:
+                Task.create(skill=name,description=task)
+        return skill
+
+
+
+
+
 class Task(models.Model):
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='tasks')
     description = models.TextField()
+    @classmethod
+    def create(cls, skill, description):
+        task = cls(skill=skill, description=description)
+        task.save()
+        return task
     def __str__(self):
         return self.skill.name
+
+
+
 
 class Employment(models.Model):
     title = models.CharField(max_length=255)
@@ -43,7 +65,7 @@ class Profile(models.Model):
     education_history = models.ManyToManyField('EducationHistory', related_name='profiles')
     
     def __str__(self):
-       return self.user.get_attname()
+       return self.user.get_username()
 
 
 class Resume(models.Model):
