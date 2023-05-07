@@ -29,7 +29,10 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            profile = Profile.objects.create(user=user)
+            profile = Profile.objects.create(user=user,
+                                             address=request.POST.get('address'),
+                                             email=request.POST.get('email'),
+                                                                    phoneNumber=request.POST.get('phoneNumber'))
             return redirect("cvgen:index")
     else:
         form = RegistrationForm()

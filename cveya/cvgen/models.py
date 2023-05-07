@@ -56,16 +56,27 @@ class EducationHistory(models.Model):
     def __str__(self):
         return self.degree
 
+class Qualification(models.Model):
+    qualification = models.CharField(max_length=255)
+
+    def __str__(self): 
+        return self.qualification
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    phoneNumber = models.CharField(max_length=12)
+    email = models.EmailField(max_length=255)
+    qualifications = models.ManyToManyField('Qualification',
+                                            related_name='profiles')
     skills = models.ManyToManyField('Skill', related_name='profiles')
     employments = models.ManyToManyField('Employment', related_name='profiles')
     education_history = models.ManyToManyField('EducationHistory', related_name='profiles')
-    
+
     def __str__(self):
-       return self.user.get_username()
+        return f"{self.user.username} - {self.phoneNumber} - {self.user.email} - {self.address}"   
+
 
 
 class Resume(models.Model):
