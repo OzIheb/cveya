@@ -7,5 +7,10 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("<int:skill_id>/details/", views.details,name="details"),
     path('register/', views.register, name='register'),
-    path('resume/', views.createResume, name="createresume")
+    path('skill_form', views.create_skill_form, name="skill_form"),
+    path('<int:pk>/resume', views.create_skill, name="resume"),
+    path('qualification_form', views.create_qualification_form,name="qualification_form"),
+    path('emp_form', views.create_employment_history_form, name="emp_form"),
+    path('edu_form', views.create_education_history_form,name="edu_form"),
+    path('<int:pk>/details',views.details,name="details")
 ]

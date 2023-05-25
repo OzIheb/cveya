@@ -1,0 +1,42 @@
+{% extends "cvgen/base.html" %} {% block content %}
+<h1>User Details {{ profile.user }}</h1>
+<h2>Profile</h2>
+<p>User: {{ profile.user }}</p>
+<p>Address: {{ profile.address }}</p>
+<p>Phone Number: {{ profile.phoneNumber }}</p>
+<p>Email: {{ profile.email }}</p>
+
+<h2>Skills</h2>
+<ul>
+  {% for skill in skills %}
+  <li>{{ skill.name }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Employment History</h2>
+<ul>
+  {% for employment in emp_history %}
+  <li>
+    {{ employment.title }} - {{ employment.period }} - {{ employment.company }}
+    - {{ employment.city }} - {{ employment.location }}
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>Education History</h2>
+<ul>
+  {% for education in edu_history %}
+  <li>
+    {{ education.degree }} - {{ education.date }} - {{ education.university }} -
+    {{ education.country }}
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>Qualifications</h2>
+<ul>
+  {% for qualification in qualifications %}
+  <li>{{ qualification.qualification }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

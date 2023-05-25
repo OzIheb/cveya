@@ -1,0 +1,55 @@
+ {% extends "cvgen/base.html" %} {% block content %}
+
+<h1>Enter resume data for {{ profile.user }}</h1>
+
+<h3>Enter your skills</h3>
+<button
+  type="button"
+  hx-get="{% url 'cvgen:skill_form' %}"
+  hx-target="#skillforms"
+  hx-swap="beforeend"
+>
+  Add Skill form
+</button>
+
+<div id="skillforms"></div><br>
+
+
+<h3>Enter your qualifications</h3>
+
+<button
+  type="button"
+  hx-get="{% url 'cvgen:qualification_form' %}"
+  hx-target="#qualificationforms"
+  hx-swap="beforeend"
+>
+  Add qualification form 
+</button>
+
+<div id="qualificationforms"></div><br>
+
+<h3>Enter your employment history</h3>
+<button
+  type="button"
+  hx-get="{% url 'cvgen:emp_form' %}"
+  hx-target="#empforms"
+  hx-swap="beforeend"
+>
+  Add employment history form 
+</button>
+
+<div id="empforms"></div><br>
+
+
+<h3>Enter your education history</h3>
+<button
+  type="button"
+  hx-get="{% url 'cvgen:edu_form' %}"
+  hx-target="#eduforms"
+  hx-swap="beforeend"
+>
+  Add education history form 
+</button>
+
+<div id="eduforms"></div><br>
+{% endblock %}
