@@ -2,5 +2,5 @@
 {% if resume_cta %}
 <a href="{% url 'cvgen:resume' pk %}">{{ resume_cta }}</a>
 
-<a href="{% url 'cvgen:details' pk %}">{{ details_cta }}</a>
+<a href="{% url 'cvgen:user_info' pk %}">{{ details_cta }}</a>
 {% endif %}

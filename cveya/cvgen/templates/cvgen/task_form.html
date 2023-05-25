@@ -1,11 +1,6 @@
-{% extends 'cvgen/base.html' %} {% block content %}
 <div hx-target="this" hx-swap="outerHTML">
   <form method="POST">
     {% csrf_token %} {{ form }}
     <button type="submit" hx-post="./resume">Submit</button>
   </form>
-  <br />
-
 </div>
-
-{% endblock %}
