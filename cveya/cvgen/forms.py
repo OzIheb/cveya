@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import EducationHistory, Profile, Skill, Qualification, EducationHistory, EmploymentHistory 
+from .models import EducationHistory, Profile, Skill, Qualification,EducationHistory, EmploymentHistory
 
 
 class RegistrationForm(UserCreationForm):
@@ -12,6 +12,7 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email','address','phoneNumber', 'password1', 'password2']
+
 
 
 class QualificationForm(forms.ModelForm):
@@ -46,7 +47,7 @@ class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
         fields = (
-            'name',
+            'name','task',
         )
         
 

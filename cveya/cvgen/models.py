@@ -15,7 +15,7 @@ class Profile(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    
+    task = models.CharField(max_length=255)
     def __str__(self):
         return self.name
 
@@ -28,28 +28,10 @@ class Skill(models.Model):
                 Task.create(skill=name,description=task)
         return skill
 
-
-
-
-
-class Task(models.Model):
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='tasks')
-    description = models.TextField()
-    @classmethod
-    def create(cls, skill, description):
-        task = cls(skill=skill, description=description)
-        task.save()
-        return task
-    def __str__(self):
-        return f"{self.skill.name} {self.description}"
-
-
-
-
 class EmploymentHistory(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    period = models.DateField(max_length=255)
+    period = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
@@ -60,7 +42,7 @@ class EmploymentHistory(models.Model):
 class EducationHistory(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     degree = models.CharField(max_length=255)
-    date = models.DateField(max_length=255)
+    date = models.CharField(max_length=255)
     university = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
 

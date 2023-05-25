@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import EmploymentHistory, Skill, Profile, Qualification,EducationHistory, Task
+from .models import EmploymentHistory, Skill, Profile,Qualification,EducationHistory
 from django.contrib.auth import login, authenticate
 from .forms import EducationHistoryForm, RegistrationForm, SkillForm, QualificationForm, EmploymentHistoryForm
 from django.http import HttpResponse, FileResponse
@@ -7,19 +7,16 @@ from docxtpl import DocxTemplate
 
 # Create your views here.
 def index(request):
-    skills_list = Skill.objects.order_by("id")[:5]
 
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user)
         resume_cta = "Create your CV, " + request.user.username
         details_cta = "View your account details " + request.user.username
-        skills_list = Skill.objects.filter(profile=profile)
     else:
         resume_cta = None
         details_cta = None
 
     context = {
-        "skills_list": skills_list,
         "resume_cta": resume_cta,
         "pk": request.user.id,
         "details_cta":details_cta,
@@ -54,6 +51,7 @@ def create_skill(request, pk):
         emp_form = EmploymentHistoryForm(request.POST)
         edu_form = EducationHistoryForm(request.POST)
         skill_form = SkillForm(request.POST)
+
         if qualification_form.is_valid():
             qualification = qualification_form.save(commit=False)
             qualification.profile = profile
@@ -64,7 +62,7 @@ def create_skill(request, pk):
             skill = skill_form.save(commit=False)
             skill.profile = profile
             skill.save()
-            return HttpResponse("skill added with success")
+            return HttpResponse("skill successfully added")
 
         if edu_form.is_valid():
             education = edu_form.save(commit=False)
@@ -96,11 +94,13 @@ def create_skill(request, pk):
     return render(request, "cvgen/resume.html", context)
 
 def create_skill_form(request):
+
     form = SkillForm()
     context = {
         "form": form,
     }
     return render(request, "cvgen/skill_form.html",context)
+
 
 def create_qualification_form(request):
     form = QualificationForm()
@@ -123,7 +123,7 @@ def create_employment_history_form(request):
     }
     return render(request, "cvgen/emp_form.html",context)
 
-def details(request,pk):
+def user_info(request,pk):
     profile = Profile.objects.get(id=pk)
     skills = Skill.objects.filter(profile=profile)
     emp_history = EmploymentHistory.objects.filter(profile=profile)
@@ -158,13 +158,12 @@ def resumedetails(request,pk):
     "employments":emp_history,
     "education_history":edu_history,
     }
-    file_path = "cvgen/media/files/resume.docx"
+    file_path = "cvgen/media/files/resume"+ str(request.user.id) +".docx"
     resume.render(docContext)
     resume.save(file_path)
     with open(file_path, 'rb') as f:
         response = FileResponse(f)
 
-        # Set the appropriate content type and content-disposition headers
         response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         response['Content-Disposition'] = 'attachment; filename="downloaded_file.docx"'
 
