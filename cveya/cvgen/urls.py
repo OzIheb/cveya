@@ -12,5 +12,6 @@ urlpatterns = [
     path('qualification_form', views.create_qualification_form,name="qualification_form"),
     path('emp_form', views.create_employment_history_form, name="emp_form"),
     path('edu_form', views.create_education_history_form,name="edu_form"),
-    path('<int:pk>/details',views.details,name="details")
+    path('<int:pk>/details',views.details,name="details"),
+    path('<int:pk>/resumedetails',views.resumedetails,name="resumedetails")
 ]

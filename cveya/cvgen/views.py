@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import EmploymentHistory, Skill, Profile, Qualification, EducationHistory
+from .models import EmploymentHistory, Skill, Profile, Qualification,EducationHistory, Task
 from django.contrib.auth import login, authenticate
 from .forms import EducationHistoryForm, RegistrationForm, SkillForm, QualificationForm, EmploymentHistoryForm
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
+from docxtpl import DocxTemplate
 
 # Create your views here.
 def index(request):
@@ -138,7 +139,36 @@ def details(request,pk):
     }
     return render(request,"cvgen/details.html",context)
 
+def resumedetails(request,pk):
+    profile = Profile.objects.get(id=pk)
+    skills = Skill.objects.filter(profile=profile)
+    emp_history = EmploymentHistory.objects.filter(profile=profile)
+    edu_history = EducationHistory.objects.filter(profile=profile)
+    qualifications = Qualification.objects.filter(profile=profile)
+
     
+    resume = DocxTemplate('cvgen/templates/cvgen/Resume_Sample_Functional.docx')
+    docContext = {
+    "name": profile.user,
+    "address": profile.address,
+    "phoneNumber": profile.phoneNumber,
+    "email": profile.email,
+    "high_qualifications": qualifications,
+    "skills_and_experiences":skills,
+    "employments":emp_history,
+    "education_history":edu_history,
+    }
+    file_path = "cvgen/media/files/resume.docx"
+    resume.render(docContext)
+    resume.save(file_path)
+    with open(file_path, 'rb') as f:
+        response = FileResponse(f)
+
+        # Set the appropriate content type and content-disposition headers
+        response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        response['Content-Disposition'] = 'attachment; filename="downloaded_file.docx"'
+
+        return response
 
 
 

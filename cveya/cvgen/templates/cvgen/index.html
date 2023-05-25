@@ -1,13 +1,6 @@
-{% if skills_list %}
-<ul>
-  {% for skill in skills_list %}
-  <li><a href="{% url 'cvgen:details' skill.id %}">"{{ skill.name }}</a></li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No Skills are available</p>
-{% endif %} {% if resume_cta %}
-<a href="{% url 'cvgen:create_skill' pk %}">{{ resume_cta }}</a>
+<h1>Welcome</h1>
+{% if resume_cta %}
+<a href="{% url 'cvgen:resume' pk %}">{{ resume_cta }}</a>
 
 <a href="{% url 'cvgen:details' pk %}">{{ details_cta }}</a>
 {% endif %}
