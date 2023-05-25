@@ -3,4 +3,7 @@
 <a href="{% url 'cvgen:resume' pk %}">{{ resume_cta }}</a>
 
 <a href="{% url 'cvgen:user_info' pk %}">{{ details_cta }}</a>
+{% else %}
+<a href="{% url 'cvgen:register %}">Sign up</a>
+
 {% endif %}

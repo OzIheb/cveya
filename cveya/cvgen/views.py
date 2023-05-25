@@ -9,7 +9,6 @@ from docxtpl import DocxTemplate
 def index(request):
 
     if request.user.is_authenticated:
-        profile = Profile.objects.get(user = request.user)
         resume_cta = "Create your CV, " + request.user.username
         details_cta = "View your account details " + request.user.username
     else:
